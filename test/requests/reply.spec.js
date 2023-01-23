@@ -13,7 +13,7 @@ const db = require("../../models")
 // 3. 測試沒有相關 models 預先存在的話，新增留言會失敗
 describe("# reply request", () => {
 
-	context("#index", () => {personalbar
+	context("#index", () => {
 		// 可否取得留言資料
 		describe("GET /tweets/:id/replies", () => {
 			before(async() => {
