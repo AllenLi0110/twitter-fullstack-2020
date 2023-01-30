@@ -1,10 +1,11 @@
 const bcrypt = require("bcryptjs")
 const db = require("../models")
 const { User } = db
+const { getUser } = require("../helpers/auth-helpers")
 
 const userController = {
 	signUpPage: (req, res) => {
-		res.render("signup")
+		return res.render("signup")
 	},
 	signUp: (req, res, next) => {
 		const {account, name, email, password, checkPassword} = req.body
@@ -25,21 +26,25 @@ const userController = {
 			}))
 			.then(() => {
 				req.flash("success_messages", "帳號註冊成功！")
-				res.redirect("/signin")
+				return res.redirect("/signin")
 			})
 			.catch(err => next(err))
 	},
 	signInPage: (req, res) => {
-		res.render("signin")
+		return res.render("signin")
 	},
 	signIn: (req, res) => {
+		if (getUser(req).role === "admin") {
+			req.flash("error_messages", "請前往後台登入！")
+			return res.redirect("/signin")
+		}
 		req.flash("success_messages", "登入成功！")
-		res.redirect("/tweets")
+		return res.redirect("/tweets")
 	},
 	logout: (req, res) => {
 		req.flash("success_messages", "登出成功！")
 		req.logout()
-		res.redirect("/signin")
+		return res.redirect("/signin")
 	}
 }
 
