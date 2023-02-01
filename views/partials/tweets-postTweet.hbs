@@ -1,0 +1,47 @@
+<div class="modal fade" id="tweet-modal" tabindex="-1" aria-labelledby="tweet-modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="width:639px; position:relative; right:40px;">
+    <div class="modal-content" style="border-radius:16px">
+      <div class="description">
+        <label for="description" class="form-label">
+        </label>
+        <button type="button" class="btn-close m-2" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/tweets" method="POST">
+        <div class="card modal-body">
+          <div class="d-flex flex-row">
+            <div class="col-md-1 m-1">
+              <img src="/images/avatar.png" class="bi pe-none me-2" style="width:50px; height:50px; border-radius:50%;">
+            </div>
+            <div class="col-md-11">
+              <textarea class="form m-3" id="description" name="description" rows="4" maxlength="140" placeholder="有什麼新鮮事？"
+                style="border:none; width:510px; resize:none; height:250px;" oninput="postTweet()"
+                required></textarea>
+            </div>
+          </div>
+          <div class="align-self-end">
+            <div id="postTweet" style="color:#FF0000; display:inline;">
+              <span>內容不可空白</span>
+            </div>
+            <button type="submit" class="btn btn-primary"
+              style="color: white;font-size: 16px; background-color:#ff6600; border: 1px solid #FF6600; border-radius:20px; width:96px; height:40px; margin-left:24px;">推文</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  function postTweet() {
+    const postTweet = document.querySelector('#postTweet')
+    const words = document.querySelector('#description').value.length
+
+    if (words === 0) {
+        postTweet.innerHTML = `<font color="red">內容不可空白</font>`
+    } else if (words >= 140) {
+        postTweet.innerHTML = `<font color="red">字數不可超過 140 字</font>`
+    } else if (words > 0 && words < 140) {
+        postTweet.innerHTML = `<font color="black">` + words + '/140' + `</font>`
+    }
+  }
+</script>

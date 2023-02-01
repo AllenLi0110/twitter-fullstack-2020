@@ -1,5 +1,6 @@
 const { Tweet, User, Like, Reply } = require("../models")
 const { getOffset, getPagination } = require("../helpers/pagination-helper")
+const { getUser } = require("../helpers/auth-helpers")
 
 const tweetController = {
 	getTweets:(req, res, next) => {
@@ -29,6 +30,26 @@ const tweetController = {
 				tweets: data,
 				pagination: getPagination(limit, page, tweets.count)
 			})
+		})
+			.catch(err => next(err))
+	},
+	postTweet: (req, res) => {
+		const { description }  = req.body
+
+		if (description.trim() === "") {
+			req.flash("error_messages", "推文的內容不可空白")
+			return res.redirect("back")
+		} else if (description.length > 140) {
+			req.flash("error_messages", "推文的字數不能超過140字")
+			return res.rediect("back")
+		}
+		
+		Tweet.create({
+			description,
+			UserId: getUser(req).id
+		}).then(() => {
+			req.flash("success_messages", "推文成功！")
+			return res.redirect("tweets")
 		})
 			.catch(err => next(err))
 	}
