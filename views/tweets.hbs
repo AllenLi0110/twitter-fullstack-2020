@@ -1,1 +1,23 @@
-<div>User log in and render tweets.</div>
+{{>tweets-leftbar}}
+<div class="card col-7 p-0">
+  <div class="cards-home" style="background-color:white; border-bottom: 10px solid #E6ECF0;">
+    <div class="card-title d-flex align-items-center" style="height:74px;">
+      <p class="user-name mb-0" style="color: #171725; font-size: 18px; margin-left:23px;">
+        <strong>首頁</strong>
+      </p>
+    </div>
+    <div class="tweet-modal col" style="height:136px; border-top: 1px solid #E6ECF0;" data-bs-toggle="modal"
+      data-bs-target="#tweet-modal">
+      <div class="card-image m-3">
+        <img src="/images/avatar.png" class="user-image" class="user-avatar"
+          style="width:50px; height:50px; border-radius:50%;">
+        <span style="color:#6C757D;font-size: 18px;margin:8px;">有什麼新鮮事？</span>
+      </div>
+      <div class="d-flex justify-content-end m-3">
+        <button type="submit" class="btn btn-primary"
+          style="color: white;font-size: 16px;background-color:#ff6600;border: 1px solid #FF6600;border-radius:20px; width:96px;height:40px;margin-left:24px">推文</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{>tweets-rightbar}}
