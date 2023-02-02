@@ -30,6 +30,7 @@ module.exports = {
 			"never"
 		],
 		"no-unused-vars":"off",
-		"no-undef": "off"
+		"no-undef": "off",
+		"no-useless-escape": "off"
 	}
 }
