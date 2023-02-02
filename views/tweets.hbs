@@ -1,4 +1,4 @@
-{{>tweets-leftbar}}
+{{>tweets-leftbar route='tweets'}}
 <div class="col-7 p-0">
   <div class="cards-home" style="background-color:white; border:1px solid #E6ECF0; border-bottom: 10px solid #E6ECF0;">
     <div class="card-title d-flex align-items-center" style="height:74px;">
@@ -22,7 +22,7 @@
   </div>
   <div class="tweets-tweet">
     {{#each tweets}}
-    {{>tweets-tweet}}
+    {{>tweets-tweet route='tweets'}}
     {{/each}}
   </div>
   <div class="footer">

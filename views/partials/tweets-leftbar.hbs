@@ -6,10 +6,16 @@
           <img src="/images/logo.svg" alt="logo" style="width:40px; height:40px;">
         </a>
       </div>
-      <div class="m-3">
-        <img src="/images/home.svg" alt="home" class="m-2" style="width:24px; height:24px;">
+      <div class="m-3 d-flex align-items-center">
+        {{#ifCond route 'tweets'}}
+          <img src="/images/home-click.svg" alt="home-click" class="m-2" style="width:24px;height:24px">
+        {{else}}
+          <img src="/images/home.svg" alt="home" class="m-2" style="width:24px; height:24px;">
+        {{/ifCond}}
         <a href="/" class="m-2 text-decoration-none"
-          style="color:#44444F;font-size: 18px">首頁</a>
+          style="color:{{#ifCond route 'tweets'}} #ff6600 
+                       {{else}} #44444F 
+                       {{/ifCond}};font-size: 18px">首頁</a>
       </div>
       <div class="m-3">
         <img src="/images/profile.svg" alt="profile" class="m-2" style="width:24px; height:24px;">
