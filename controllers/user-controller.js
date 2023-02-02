@@ -1,7 +1,6 @@
-const bcrypt = require("bcryptjs")
-const db = require("../models")
-const { User } = db
+const { Tweet, User, Like, Reply } = require("../models")
 const { getUser } = require("../helpers/auth-helpers")
+const bcrypt = require("bcryptjs")
 
 const userController = {
 	signUpPage: (req, res) => {
@@ -54,6 +53,34 @@ const userController = {
 		req.flash("success_messages", "登出成功！")
 		req.logout()
 		return res.redirect("/signin")
+	},
+	getProfile: async (req, res, next) => {
+		try {
+			const user = getUser(req)
+			const id = req.params.id
+			const personal = await User.findByPk(id, {
+				include: [
+					Tweet
+				]
+			})
+			const tweetsList = await Tweet.findAll({
+				where: { ...personal ? { UserId: personal.id } : {} },
+				include: [User, Reply, Like],
+				order: [
+					["created_at", "DESC"],
+				]
+			})
+			const tweets = tweetsList.map( tweet => ({
+				...tweet.toJSON()
+			}))
+			return res.render("profile", {
+				tweets,
+				user,
+				personal: personal.toJSON()
+			})
+		} catch(err) {
+			next(err)
+		}
 	}
 }
 
