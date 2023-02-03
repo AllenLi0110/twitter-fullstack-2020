@@ -2,8 +2,13 @@
   <div class="row g-0">
     <div class="col-md-1" style="width:50px; height:50px;">
       <a href="/users/{{this.User.id}}/tweets">
-        <img src="/images/avatar.png" class="img-fluid rounded-circle m-3" alt="avatar"
-          style="width:50px; height:50px;">
+        {{#if this.User.avatar}}
+          <img src="{{this.User.avatar}}" class="img-fluid rounded-circle m-3" alt="user-avatar"
+            style="width: 50px; height: 50px;">
+        {{else}}
+          <img src="/images/avatar.png" class="img-fluid rounded-circle m-3" alt="default-avatar"
+            style="width: 50px; height: 50px;">
+        {{/if}}
       </a>
     </div>
     <div class="col-md-11">
@@ -20,13 +25,13 @@
           <form action="/tweets/{{this.id}}/replies" method="GET" style="display:inline">
             <button type="submit" style="border:none;background: none;">
               <img src="/images/icon/comment-dots-regular.svg" alt="comment"  style="width:15px; height:15px">
-              <span>123</span>
+              <span>{{this.Replies.length}}</span>
             </button>
           </form>
           <form action="/tweets/{{this.id}}/like" method="POST" style="display: inline">
             <button type="submit" style="border:none;background: none;">
               <img src="/images/icon/heart-regular.svg" alt="heart" style="width:15px; height:15px">
-              <span>123</span>
+              <span>{{this.Likes.length}}</span>
             </button>
           </form>
         </p>
