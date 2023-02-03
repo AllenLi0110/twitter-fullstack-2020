@@ -91,6 +91,36 @@ const userController = {
 		} catch(err) {
 			next(err)
 		}
+	},
+	putSetting: async (req, res, next) => {
+		try {
+			const { editAccount, editName, editEmail, editPassword, editCheckPassword } =  req.body
+			const {id, account, email } = getUser(req)
+
+			if (account !== editAccount) {
+				const existAccount = await User.findOne({ where: { account: editAccount }})
+				if (existAccount) throw new Error("此帳號已存在！")
+			}
+			if (editName.length > 50) throw new Error("名稱字數上限為 50 字")
+			if (email !== editEmail) {
+				const existEmail = await User.findOne({ where: { email: editEmail }})
+				if (existEmail) throw new Error("此信箱已存在！")
+			}
+			if (editPassword !== editCheckPassword) throw new Error("密碼與驗證密碼不相符！")
+			
+			const editUser = await User.findByPk(id)
+			await editUser.update({
+				account: editAccount,
+				name: editName,
+				email: editEmail,
+				password: await bcrypt.hash(editPassword, 10)
+			})
+
+			req.flash("success_messages", "更新成功！")
+			return res.redirect(`/users/${id}/setting`)
+		} catch(err) {
+			next(err)
+		}
 	}
 }
 
