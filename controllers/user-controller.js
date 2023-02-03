@@ -81,6 +81,16 @@ const userController = {
 		} catch(err) {
 			next(err)
 		}
+	},
+	getSetting: async (req, res, next) => {
+		try {
+			const id = req.params.id
+			const user = await User.findByPk(id, { raw: true } )
+			if (user.id !== getUser(req).id) throw new Error("無法編輯他人資料！")
+			return res.render("setting", user)
+		} catch(err) {
+			next(err)
+		}
 	}
 }
 

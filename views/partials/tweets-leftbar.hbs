@@ -28,10 +28,16 @@
                        {{else}} #44444F 
                        {{/ifCond}};font-size: 18px">個人資料</a>
       </div>
-      <div class="m-3">
+      <div class="m-3 d-flex align-items-center">
+        {{#ifCond route 'setting'}}
+        <img src="/images/setting-click.svg" alt="setting" class="m-2" style="width:24px;height:24px">
+        {{else}}
         <img src="/images/setting.svg" alt="setting" class="m-2" style="width:24px; height:24px;">
-        <a href="/users/:id/setting" class="m-2 text-decoration-none"
-          style="color:#44444F; font-size:18px;">設定</a>
+        {{/ifCond}}
+        <a href="/users/{{user.id}}/setting" class="m-2 text-decoration-none"
+          style="color:{{#ifCond route 'setting'}} #ff6600 
+                        {{else}} #44444F 
+                        {{/ifCond}};font-size: 18px">設定</a>
       </div>
       <div class="mb-4 text-center" data-bs-toggle="modal" data-bs-target="#tweet-modal">
         <button class="btn col-sm-2" type="submit"
