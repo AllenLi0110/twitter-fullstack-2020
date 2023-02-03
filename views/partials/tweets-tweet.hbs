@@ -1,5 +1,5 @@
 <div class="mx-auto" style="border:1px solid #E6ECF0">
-  <div class="row g-0">
+  <div class="row mb-3 g-0">
     <div class="col-md-1" style="width:50px; height:50px;">
       <a href="/users/{{this.User.id}}/tweets">
         {{#if this.User.avatar}}
@@ -14,27 +14,35 @@
     <div class="col-md-11">
       <div class="card-body pb-0" style="margin-left:16px;">
         <a href="/users/{{this.User.id}}/tweets" style="text-decoration:none;color: black">
-          <h5 class="card-text">{{this.User.name}}
-            <span class="fs-6 fw-lighter mr-1">@{{this.User.account}}．{{relativeTimeFromNow this.createdAt}}</span>
+          <h5 class="card-text mb-1">{{this.User.name}}
+            <span class="fs-6 fw-lighter m-1">@{{this.User.account}}．{{relativeTimeFromNow this.createdAt}}</span>
           </h5>
         </a>
-        <a href="/tweets/{{this.id}}/replies" style="text-decoration:none; color:black" ;>
-          <p class="text-break">{{this.description}}</p>
-        </a>
-        <p class="text-start m-0">
-          <form action="/tweets/{{this.id}}/replies" method="GET" style="display:inline">
-            <button type="submit" style="border:none;background: none;">
-              <img src="/images/icon/comment-dots-regular.svg" alt="comment"  style="width:15px; height:15px">
-              <span>{{this.Replies.length}}</span>
-            </button>
-          </form>
-          <form action="/tweets/{{this.id}}/like" method="POST" style="display: inline">
-            <button type="submit" style="border:none;background: none;">
-              <img src="/images/icon/heart-regular.svg" alt="heart" style="width:15px; height:15px">
-              <span>{{this.Likes.length}}</span>
-            </button>
-          </form>
-        </p>
+        {{#ifCond route 'replies'}}<span>回覆</span>
+          <a href="/users/{{this.Tweet.User.id}}/tweets" style="text-decoration: none;color: black;">
+            <span>@{{this.Tweet.User.account}}</span>
+          </a>
+          <p class="text-break">{{this.comment}}</p>
+        {{/ifCond}}
+        {{#ifCond route 'tweets'}}
+          <a href="/tweets/{{this.id}}/replies" style="text-decoration: none;color:black" ;>
+            <p class="text-break">{{this.description}}</p>
+          </a>
+          <div class="text-start m-0">
+            <form action="/tweets/{{this.id}}/replies" method="GET" style="display:inline">
+              <button type="submit" style="border:none;background: none;">
+                <img src="/images/icon/comment-dots-regular.svg" alt="comment"  style="width:15px; height:15px">
+                <span>{{this.Replies.length}}</span>
+              </button>
+            </form>
+            <form action="/tweets/{{this.id}}/like" method="POST" style="display: inline">
+              <button type="submit" style="border:none;background: none;">
+                <img src="/images/icon/heart-regular.svg" alt="heart" style="width:15px; height:15px">
+                <span>{{this.Likes.length}}</span>
+              </button>
+            </form>
+          </div>
+        {{/ifCond}}
       </div>
     </div>
   </div>

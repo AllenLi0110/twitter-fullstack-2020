@@ -60,7 +60,9 @@ const userController = {
 			const id = req.params.id
 			const personal = await User.findByPk(id, {
 				include: [
-					Tweet
+					Tweet,
+					{ model: User, as: "Followers"},
+					{ model: User, as: "Followings" }
 				]
 			})
 			const tweetsList = await Tweet.findAll({
@@ -78,6 +80,36 @@ const userController = {
 				user,
 				personal: personal.toJSON()
 			})
+		} catch(err) {
+			next(err)
+		}
+	},
+	getReplies: async (req, res, next) => {
+		try {
+			const user = getUser(req)
+			const id = req.params.id
+			const personal = await User.findByPk(id, {
+				include: [
+					Tweet,
+					{ model: User, as: "Followers"},
+					{ model: User, as: "Followings" }
+				]
+			})
+			const repliesList = await Reply.findAll({
+				where: { ...personal ? { UserId: personal.id } : {} },
+				include: [
+					User,
+					{ model: Tweet, include: User }
+				],
+				order: [["created_at", "DESC"]]
+			})
+			const replies = repliesList.map(reply => ({
+				...reply.toJSON()
+			}))
+			return res.render("profile_replies", { 
+				replies, 
+				user, 
+				personal: personal.toJSON() })
 		} catch(err) {
 			next(err)
 		}

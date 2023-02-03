@@ -20,6 +20,7 @@ router.get("/tweets", authenticated, tweetController.getTweets)
 router.post("/tweets", authenticated, tweetController.postTweet)
 
 router.get("/users/:id/tweets", authenticated, userController.getProfile)
+router.get("/users/:id/replies", authenticated,  userController.getReplies)
 router.get("/users/:id/setting", authenticated, userController.getSetting)
 router.put("/users/:id/setting", authenticated, userController.putSetting)
 
