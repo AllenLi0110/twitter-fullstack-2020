@@ -28,20 +28,33 @@
           <a href="/tweets/{{this.id}}/replies" style="text-decoration: none;color:black" ;>
             <p class="text-break">{{this.description}}</p>
           </a>
-          <div class="text-start m-0">
+          <p class="text-start">
             <form action="/tweets/{{this.id}}/replies" method="GET" style="display:inline">
               <button type="submit" style="border:none;background: none;">
                 <img src="/images/icon/comment-dots-regular.svg" alt="comment"  style="width:15px; height:15px">
                 <span>{{this.Replies.length}}</span>
               </button>
             </form>
-            <form action="/tweets/{{this.id}}/like" method="POST" style="display: inline">
-              <button type="submit" style="border:none;background: none;">
-                <img src="/images/icon/heart-regular.svg" alt="heart" style="width:15px; height:15px">
-                <span>{{this.Likes.length}}</span>
-              </button>
-            </form>
-          </div>
+            {{#if this.isLiked}}
+              <form action="/tweets/{{this.id}}/unlike" method="POST" style="display: inline">
+                <small class="text-muted">
+                  <button type="submit" style="border:none;background: none;">
+                    <img src="/images/icon/like.png" alt="like">
+                    <span>{{this.Likes.length}}</span>
+                  </button>
+                </small>
+              </form>
+            {{else}}
+              <form action="/tweets/{{this.id}}/like" method="POST" style="display: inline">
+                <small class="text-muted">
+                  <button type="submit" style="border:none;background: none;">
+                    <img src="/images/icon/unlike.png" alt="unlike">
+                    <span>{{this.Likes.length}}</span>
+                  </button>
+                </small>
+              </form>
+            {{/if}}
+          </p>
         {{/ifCond}}
       </div>
     </div>

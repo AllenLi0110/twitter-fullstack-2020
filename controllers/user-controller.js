@@ -114,6 +114,42 @@ const userController = {
 			next(err)
 		}
 	},
+	getLikes: async (req, res, next) => {
+		try {
+			const user = getUser(req)
+			const id = req.params.id
+			const personal = await User.findByPk(id, {
+				include: [
+					Tweet,
+					{ model: User, as: "Followers" },
+					{ model: User, as: "Followings" },
+					{ model: Like, as: Tweet }
+				]
+			})
+		
+			const likedTweetsId = personal?.Likes.map(like => like.TweetId)
+			const tweetsList = await Tweet.findAll({
+				where: {
+					...likedTweetsId ? { id: likedTweetsId } : {}
+				},
+				include: [
+					User,
+					Reply,
+					Like
+				],
+				order: [
+					["created_at", "DESC"]
+				]
+			})
+			const tweets = tweetsList.map(tweet => ({
+				...tweet.toJSON(),
+				isLiked: true
+			}))
+			return res.render("profile_likes", { tweets, user, personal: personal.toJSON() })
+		} catch (err) {
+			next(err)
+		}
+	},
 	getSetting: async (req, res, next) => {
 		try {
 			const id = req.params.id
