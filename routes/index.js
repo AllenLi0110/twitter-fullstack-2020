@@ -5,6 +5,7 @@ const passport = require("../config/passport")
 const admin = require("./modules/admin")
 const tweetController = require("../controllers/tweet-controller")
 const userController = require("../controllers/user-controller")
+const replyController = require("../controllers/reply-controller")
 const { authenticated } = require("../middleware/auth") 
 const { generalErrorHandler } = require("../middleware/error-handler")
 
@@ -18,6 +19,9 @@ router.get("/logout", userController.logout)
 
 router.get("/tweets", authenticated, tweetController.getTweets)
 router.post("/tweets", authenticated, tweetController.postTweet)
+
+router.get("/tweets/:id/replies", authenticated, replyController.getReplies)
+router.post("/tweets/:id/replies", authenticated, replyController.postReplies)
 
 router.get("/users/:id/tweets", authenticated, userController.getProfile)
 router.get("/users/:id/replies", authenticated,  userController.getReplies)

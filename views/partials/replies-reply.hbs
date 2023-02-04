@@ -1,0 +1,78 @@
+<div class="row g-0">
+  <div class="col-md-2 m-3" style="width: 50px; height: 50px;">
+    <a href="/users/{{replies.User.id}}/tweets">
+    {{#if user.avatar}}
+      <img src="{{user.avatar}}" class="img-fluid rounded-circle" alt="user-avatar" style="width: 50px; height: 50px;">
+    {{else}}
+      <img src="/images/avatar.png" class="img-fluid rounded-circle" alt="default-avatar" style="width: 50px; height: 50px;">
+    {{/if}}
+    </a>
+  </div>
+  <div class="col-md-10">
+    <div class="card-body p-0 mt-4">
+      <a href="/users/{{tweet.User.id}}/tweets" style="text-decoration: none;color: black">
+        <h5 class="card-text m-0"><strong>{{tweet.User.name}}</strong></h5>
+        <h5 class="fs-6 fw-lighter mr-1">@{{tweet.User.account}}</h5>
+      </a>
+		</div>	
+  </div>	
+  <div class="p-3">
+    <p class="card-text">{{tweet.description}}</p>
+      <span class="card-text">{{normalTimeForm tweet.createdAt}}</span>
+      <p class="card-text">
+        <small class="text-muted">
+          <span><strong>{{replies.length}}</strong></span>
+          <span>回覆</span>
+        </small>
+        <small class="text-muted">
+          <span><strong>{{tweet.Likes.length}}</strong></span>
+          <span>喜歡的次數</span>
+        </small>
+        <form action="/tweets/{{tweet.id}}/replies" method="GET" style="display:inline">
+          <small class="text-muted">
+            <button type="submit" style="border:none; background: none;">
+              <a href="" data-bs-toggle="modal" data-bs-target="#replyModal">
+                <img src="/images/icon/comment-dots-regular.svg" alt="comment" style="width:25px; height:25px">
+              </a>
+            </button>
+          </small>
+        </form>
+        {{#if user.isLiked}}
+        <form action="/tweets/{{tweet.id}}/unlike" method="POST" style="display: inline">
+          <small class="text-muted">
+            <button type="submit" style="border:none; background: none;" style="width:25px; height:25px">
+              <img src="/images/icon/like.png" alt="like">
+            </button>
+          </small>
+        </form>
+        {{else}}
+        <form action="/tweets/{{tweet.id}}/like" method="POST" style="display: inline">
+          <small class="text-muted">
+            <button type="submit" style="border:none;background: none;" style="width:25px; height:25px">
+              <img src="/images/icon/unlike.png">
+            </button>
+          </small>
+        </form>
+        {{/if}}
+      </p>
+    </div>
+  </div>
+</div>
+<script>
+  function repliesCounts() {
+    const counts = document.getElementById('floatingTextarea2').value.length
+    const repliesEmptyMessage = document.getElementById('repliesEmptyMessage')
+    const chatText = document.getElementById('repliesCharCount')
+    chatText.innerText = counts + '/140'
+    if (counts > 140) {
+      repliesEmptyMessage.innerText = '字數超出上限！'
+      return
+    }
+    if (counts > 0 && counts <= 140) {
+      repliesEmptyMessage.innerText = ''
+    }
+    if (counts === 0) {
+      repliesEmptyMessage.innerText = '內容不可空白'
+    }
+  }
+</script>

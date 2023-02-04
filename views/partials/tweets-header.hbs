@@ -1,16 +1,12 @@
 <div class="card-title d-flex align-items-center" style="height:74px;">
-    <div class="col">
-        <p class="user-name mb-0" style="color: #171725; font-size: 18px; margin-left:23px;">
-        {{#ifCond route 'tweets'}}
-        <strong>首頁</strong>
-        {{/ifCond}}
-        </p>
-    </div>
-    <div class="col">
-    <p class="user-name m-2">
+  <div class="col">
+      <p class="user-name mb-0" style="color: #171725; font-size: 18px; margin-left:23px;">
+      {{#ifCond route 'tweets'}}
+      <strong>首頁</strong>
+      {{/ifCond}}
       {{#ifCond route 'replies'}}
       <a href="/" style="text-decoration: none;color:black;">
-        <img src="/images/back.png" alt="back" style="width:17px;height:14px">
+        <img src="/images/back.png" alt="back" style="width:17px; height:14px;">
       </a>
       <strong class="m-2">推文</strong>
       {{/ifCond}}

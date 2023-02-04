@@ -1,0 +1,69 @@
+<div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="height:500px">
+      <div class="modal-header d-flex justify-content-start" style="margin:0px">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body row mt-3" style=" margin-top:0px; top:0px">
+        <div class="col-2 " style="height:200px">
+          {{#if user.avatar}}
+          <img src="{{user.avatar}}" class="img-fluid rounded-circle" alt="User Photo" style="width: 50px; height: 50px;">
+          {{else}}
+          <img src="/images/avatar.png" class="img-fluid rounded-circle" alt="User Photo" style="width: 50px; height: 50px;">
+          {{/if}}
+        </div>
+        <div class="col px-0" style="max-width: 80%;height:200px">
+          <span class="fw-bold fs-6">{{tweet.User.name}}</span>
+            <small>
+                &emsp;@{{tweet.User.account}} ‧
+            </small>
+          <span>{{relativeTimeFromNow tweet.updatedAt}}</span>
+          <br />
+          <p class="my-2" style="word-wrap: break-word; word-break: normal;">{{tweet.description}}</p>
+          <small>回覆給<span style="color:#FF6600">@{{tweet.User.account}}</span></small>
+        </div>
+        <form action="/tweets/{{tweet.id}}/replies" method="POST" style="border-top:1px solid #E6ECF0 ;">
+          <div class="row mt-3">
+            <div class="col-2 me-0">
+              {{#if user.avatar}}
+                <img src="{{user.avatar}}" class="user-photo" class="user-avatar"
+                  style="width:50px;height:50px;border-radius:50%;">
+              {{else}}
+                <img src="/images/icon/user.png" class="user-photo" class="user-avatar"
+                  style="width:50px;height:50px;border-radius:50%;">
+              {{/if}}
+            </div>
+            <div class="col mx-0 px-0">
+              <textarea name="comment" class="border-0 mt-2 mx-0 px-0" type="text"
+                style="width:95%; border: none;outline: none;resize:none" placeholder="推你的回覆" id="reply-words"
+                rows="3" maxlength="140" oninput="postReply()" required></textarea>
+            </div>            
+          </div>
+          <div class="text-end mt-5">
+            <div class="align-self-end">
+              <div style="color:#FF0000;top: 270px;right: 120px; display:inline;">
+                <span id="postReply"><span>內容不可空白</span></span>
+              </div>
+              <button type="submit" class="btn"
+                style="color: white;font-size: 16px;background-color:#ff6600;border: 1px solid #FF6600;border-radius:20px; width:96px;height:40px;margin-left:24px;">回覆</button>
+            </div>            
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function postReply() {
+    const postReply = document.getElementById('postReply')
+    const words = document.getElementById('reply-words').value.length
+
+    if (words === 0) {
+        postReply.innerHTML = `<font color="red">內容不可空白</font>`
+    } else if (words >= 140) {
+        postReply.innerHTML = `<font color="red">字數不可超過 140 字</font>`
+    } else if (words > 0 && words < 140) {
+        postReply.innerHTML = `<font color="black">` + words + '/140' + `</font>`
+    }
+  }
+</script>
