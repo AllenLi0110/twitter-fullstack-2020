@@ -1,4 +1,4 @@
-const { User, Tweet } = require("../models")
+const { User, Tweet, Reply, Like } = require("../models")
 const { getUser } = require("../helpers/auth-helpers")
 const { getOffset, getPagination } = require("../helpers/pagination-helper")
 
@@ -45,8 +45,21 @@ const adminController = {
 		} catch (err) {
 			next(err)
 		}
-
-	}
+	},
+	deleteTweet: async (req, res, next) => {
+		try {
+			const TweetId = req.params.id
+			const tweet = await Tweet.findByPk(TweetId)
+			await tweet.destroy()
+			await Reply.destroy({ where: { TweetId } })
+			await Like.destroy({ where: { TweetId } })
+	
+			req.flash("success_messages", "成功刪除！")
+			res.redirect("back")
+		} catch (err) {
+			next(err)
+		}
+	},
 }
 
 module.exports = adminController
