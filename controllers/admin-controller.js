@@ -60,6 +60,37 @@ const adminController = {
 			next(err)
 		}
 	},
+	getUsers: async(req, res, next) => {
+		try {
+			const userList = await User.findAll({
+				include:[
+					{ model: Tweet, include: [Like] },
+					{ model: User, as:"Followers" },
+					{ model: User, as:"Followings" }
+				],
+				nest: true
+			}).then(data => {
+				const users = data.filter(user => user.role !== "admin")
+					.map(userData => {
+						const userJson = userData.toJSON()
+						delete userJson.password
+
+						return {
+							...userJson,
+							tweetCounts: userData.Tweets.length,
+							likeCounts: userData.Tweets.reduce((acc, cur) => {
+								return acc + cur.Likes.length
+							}, 0),
+							followerCounts: userData.Followers.length,
+							followingCounts: userData.Followings.length
+						}
+					}).sort((a, b) => b.tweetCounts - a.tweetCounts)
+				return res.render("admin/users", {users})
+			})
+		} catch (err) {
+			next(err)
+		}
+	}
 }
 
 module.exports = adminController
