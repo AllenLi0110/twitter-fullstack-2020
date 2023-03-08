@@ -6,6 +6,7 @@ const admin = require("./modules/admin")
 const tweetController = require("../controllers/tweet-controller")
 const userController = require("../controllers/user-controller")
 const replyController = require("../controllers/reply-controller")
+const followshipController = require("../controllers/followship-controller")
 const { authenticated } = require("../middleware/auth") 
 const { generalErrorHandler } = require("../middleware/error-handler")
 
@@ -28,6 +29,9 @@ router.get("/users/:id/replies", authenticated,  userController.getReplies)
 router.get("/users/:id/likes", authenticated,  userController.getLikes)
 router.get("/users/:id/setting", authenticated, userController.getSetting)
 router.put("/users/:id/setting", authenticated, userController.putSetting)
+
+router.post("/folloships", authenticated, followshipController.addFollowing)
+router.delete("/followships/:id", authenticated, followshipController.removeFollowing)
 
 router.use("/", (req, res) => res.redirect("/tweets"))
 router.use("/", generalErrorHandler)
