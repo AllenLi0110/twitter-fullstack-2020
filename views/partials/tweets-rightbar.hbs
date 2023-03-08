@@ -8,32 +8,46 @@
         </p>
       </div>
     </div>
-    <div class="row tweet-right-bar-followship mt-3">
-      <div class="d-flex align-items-center">
-        <div class="image" style="margin-left:16px;">
-          <a href="/users/:id/tweets">
-            <img src="/images/icon/logo-gray.png" alt=""
-            class="circle" style="border-radius:50%; width:50px; height:50px;">
-          </a>
-        </div>
-        <div class="tweet-followship-terms m-2">
-          <a href="/users/:id/tweets" style="text-decoration: none;">
-            <p class="m-0" style="color: #171725; font-size: 16px;">
-              <span>Pizza Hut</span>
-            </p>
-          </a>
-          <p class="m-0" style="color: #92929D; font-size: 14px;">
-            <span>@pizzahut</span>
-          </p>
-        </div>
-        <div class="follow-btn m-2">
-          <form action="/followships/:id?_method=DELETE" method="POST" class="d-flex justify-content-start">
-            <button type="submit" class="btn btn-primary" style="color: white;font-size: 16px;background-color:#ff6600;border: 1px solid #FF6600;border-radius:20px; width:96px;height:40px;">
-              正在追隨
-            </button>
-          </form>
-        </div>
-      </div>
+    <div class="row side-bar-body">
+      {{#each recommendedUsers}}
+        {{#ifCondFalse this.id ../user.id}}
+          <div class="user-info-item d-flex" style="margin-left:20px;">
+            <div class="image m-2 col-2">
+              <a href="/users/{{this.id}}/tweets">
+                <img src="{{#if this.avatar}}{{this.avatar}}{{else}}/images/icon/logo-gray.png{{/if}}" alt=""
+                  class="circle" style="border-radius:50%;width:50px;height:50px;">
+              </a>
+            </div>
+            <div class="mt-2 col-3">
+              <a href="/users/{{this.id}}/tweets" style="text-decoration: none;">
+                <p class="user-name m-0 get-user-name" style="color: #171725;font-size: 16px;">
+                  <span>{{this.name}}</span>
+                </p>
+              </a>
+              <p class="user-name m-0 get-user-account" style="color: #92929D;font-size: 14px;">
+                <span>@{{this.account}}</span>
+              </p>
+            </div>
+            <div class="follow-btn m-2 text-end">
+              {{#if this.isFollowed}}
+                <form action="/followships/{{this.id}}?_method=DELETE" method="POST" class="d-flex justify-content-start">
+                  <button type="submit" class="btn btn-primary" style="color: white;font-size: 16px;background-color:#ff6600;border: 1px solid #FF6600;border-radius:20px; width:96px;height:40px;">
+                    正在追隨
+                  </button>
+                </form>
+              {{else}}
+                <form action="/followships" method="POST" class="d-flex justify-content-end">
+                  <button type="submit" class="btn btn-primary"
+                        style="color: #ff6600;font-size: 16px;background-color:white;border: 1px solid #FF6600;border-radius:20px; width:64px;height:40px; margin-left:20px;"
+                        name="id" value={{this.id}}>
+                        追隨
+                  </button>
+                </form>
+              {{/if}}
+            </div>
+          </div>
+        {{/ifCondFalse}}
+      {{/each}}
     </div>
   </nav>
 </div>

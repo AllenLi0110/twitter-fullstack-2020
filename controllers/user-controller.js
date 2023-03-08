@@ -72,8 +72,11 @@ const userController = {
 					["created_at", "DESC"],
 				]
 			})
+			const followingsId = user?.Following?.map(f => f.id)
+			user.isFollowed = (followingsId.includes(personal.id))
 			const tweets = tweetsList.map( tweet => ({
-				...tweet.toJSON()
+				...tweet.toJSON(),
+				isLiked: tweet.Likes.some(t => t.UserId === user.id)
 			}))
 			return res.render("profile", {
 				tweets,

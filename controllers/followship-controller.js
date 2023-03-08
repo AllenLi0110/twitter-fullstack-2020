@@ -6,9 +6,10 @@ const followshipController = {
 		try {
 			if (getUser(req).id === Number(req.body.id)) {
 				req.flash("error_messages", "不能追隨使用者本人！")
+				return res.redirect(200, "back")
 			}
 			await Followship.create({
-				followerId: helpers.getUser(req).id,
+				followerId: getUser(req).id,
 				followingId: req.body.id
 			})
 
