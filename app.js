@@ -8,6 +8,8 @@ const passport = require("./config/passport")
 const helpers = require("./helpers/auth-helpers")
 const handlebarsHelpers = require("./helpers/handlebars-helpers")
 
+require("dotenv").config()
+
 const app = express()
 const port = process.env.PORT || 3000
 const SESSION_SECRET = "secret"
