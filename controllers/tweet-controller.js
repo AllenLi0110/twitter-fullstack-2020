@@ -54,6 +54,32 @@ const tweetController = {
 			})
 			.catch((err) => next(err))
 	},
+	postLike: (req, res, next) => {
+		Like.create({
+			UserId: getUser(req).id,
+			TweetId: req.params.id
+		}).then(() => {
+			req.flash("success_messages", "喜歡成功！")
+			return res.redirect("back")
+		})
+			.catch(err => next(err))
+	},
+	postUnlike: async (req, res, next) => {
+		try {
+			const like = await Like.findOne({
+				where: {
+					UserId: getUser(req).id,
+					TweetId: req.params.id
+				}
+			})
+			if (!like) return req.flash("error_messages", "你沒有喜歡這則推文！")
+			await like.destroy()
+			req.flash("success_messages", "取消喜歡！")
+			return res.redirect("back")
+		} catch (err) {
+			next(err)
+		}
+	}
 }
 
 module.exports = tweetController

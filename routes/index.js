@@ -34,6 +34,9 @@ router.put("/users/:id/setting", authenticated, getRecommendedUsers, userControl
 router.post("/followships", authenticated, followshipController.addFollowing)
 router.delete("/followships/:id", authenticated, followshipController.removeFollowing)
 
+router.post("/tweets/:id/unlike", authenticated, tweetController.postUnlike)
+router.post("/tweets/:id/like", authenticated, tweetController.postLike)
+
 router.use("/", (req, res) => res.redirect("/tweets"))
 router.use("/", generalErrorHandler)
 
