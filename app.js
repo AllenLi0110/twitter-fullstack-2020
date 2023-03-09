@@ -7,7 +7,6 @@ const methodOverride = require("method-override")
 const passport = require("./config/passport")
 const helpers = require("./helpers/auth-helpers")
 const handlebarsHelpers = require("./helpers/handlebars-helpers")
-
 require("dotenv").config()
 
 const app = express()
@@ -18,6 +17,7 @@ app.engine("hbs", handlebars({ extname: ".hbs", helpers: handlebarsHelpers }))
 app.set("view engine", "hbs")
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"))
+app.use(express.json())
 app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: false }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -31,6 +31,6 @@ app.use((req, res, next) => {
 })
 app.use(routes)
 
-app.listen(port, () => console.log(`Twitter Fullstack listening on port ${port}!`))
+app.listen(3000, () => console.log(`Twitter Fullstack listening on port ${port}!`))
 
 module.exports = app

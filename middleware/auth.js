@@ -21,7 +21,14 @@ const authenticatedAdmin = (req, res, next) => {
 	}
 }
 
+const authenticatedLimit = (req, res, next) => {
+	if (getUser(req).id === Number(req.params.id)) return next()
+	res.json({ status: "error", data: "只能修改自己的資料" })
+	res.redirect(200, "back")
+}
+  
 module.exports = {
 	authenticated,
-	authenticatedAdmin
+	authenticatedAdmin,
+	authenticatedLimit
 }

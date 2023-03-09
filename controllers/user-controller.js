@@ -72,8 +72,7 @@ const userController = {
 					["created_at", "DESC"],
 				]
 			})
-			const followingsId = user?.Following?.map(f => f.id)
-			user.isFollowed = (followingsId.includes(personal.id))
+
 			const tweets = tweetsList.map( tweet => ({
 				...tweet.toJSON(),
 				isLiked: tweet.Likes.some(t => t.UserId === user.id)
@@ -192,7 +191,19 @@ const userController = {
 		} catch(err) {
 			next(err)
 		}
-	}
+	},
+	//api routes
+	getUserInfo:(req, res, next) => {
+		const id = req.params.id
+		User.findByPk(id)
+			.then(userData => {
+				if (!userData) throw new Error("使用者不存在！")
+				const user = userData.toJSON()
+				delete user.password
+				res.json({status: "success", ...user})
+			})
+			.catch(err => next(err))
+	},
 }
 
 module.exports = userController

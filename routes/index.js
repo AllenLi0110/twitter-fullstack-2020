@@ -7,7 +7,7 @@ const tweetController = require("../controllers/tweet-controller")
 const userController = require("../controllers/user-controller")
 const replyController = require("../controllers/reply-controller")
 const followshipController = require("../controllers/followship-controller")
-const { authenticated } = require("../middleware/auth") 
+const { authenticated, authenticatedLimit } = require("../middleware/auth") 
 const { generalErrorHandler } = require("../middleware/error-handler")
 const { getRecommendedUsers } = require("../middleware/recommendedUser")
 
@@ -36,6 +36,9 @@ router.delete("/followships/:id", authenticated, followshipController.removeFoll
 
 router.post("/tweets/:id/unlike", authenticated, tweetController.postUnlike)
 router.post("/tweets/:id/like", authenticated, tweetController.postLike)
+
+//api
+router.get("/api/users/:id", authenticatedLimit, userController.getUserInfo)
 
 router.use("/", (req, res) => res.redirect("/tweets"))
 router.use("/", generalErrorHandler)
