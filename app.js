@@ -33,6 +33,6 @@ app.use((req, res, next) => {
 })
 app.use(routes)
 
-app.listen(3000, () => console.log(`Twitter Fullstack listening on port ${port}!`))
+app.listen(port, () => console.log(`Twitter Fullstack listening on port ${port}!`))
 
 module.exports = app

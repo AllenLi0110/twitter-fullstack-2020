@@ -194,16 +194,19 @@ const userController = {
 		}
 	},
 	//api routes
-	getUserInfo:(req, res, next) => {
-		const id = req.params.id
-		User.findByPk(id)
-			.then(userData => {
-				if (!userData) throw new Error("使用者不存在！")
-				const user = userData.toJSON()
-				delete user.password
-				res.json({status: "success", ...user})
-			})
-			.catch(err => next(err))
+	getUserInfo: async (req, res, next) => {
+		try{
+			const id = req.params.id
+			User.findByPk(id)
+				.then(userData => {
+					if (!userData) throw new Error("使用者不存在！")
+					const user = userData.toJSON()
+					delete user.password
+					res.json({status: "success", ...user})
+				})
+		} catch (err) {
+			next(err)
+		}
 	},
 	postUser: async (req, res, next) => {
 		try {

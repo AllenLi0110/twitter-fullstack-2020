@@ -16,10 +16,10 @@ module.exports = {
 						...user.toJSON(),
 						followerCount: user.Followers.length,
 						isFollowed: loginUser?.Followings.map(f => f.id).includes(user.id)
-					}))
+					}))	
+					.filter(user => (user.role !== "admin"))
 					.sort((a, b) => b.followerCount - a.followerCount)
 					.slice(0, 10)
-					.filter(user => user.role !== "admin")
 				res.locals.recommendedUsers = recommendedUsers
 				next()
 			})
