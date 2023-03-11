@@ -1,6 +1,7 @@
+const bcrypt = require("bcryptjs")
 const { Tweet, User, Like, Reply } = require("../models")
 const { getUser } = require("../helpers/auth-helpers")
-const bcrypt = require("bcryptjs")
+const { imgurFileHandler } = require("../helpers/file-helpers")
 
 const userController = {
 	signUpPage: (req, res) => {
@@ -204,6 +205,37 @@ const userController = {
 			})
 			.catch(err => next(err))
 	},
+	postUser: async (req, res, next) => {
+		try {
+			const userId = req.params.id
+			const { files } = req
+			const { name, introduction } = req.body
+		
+			const user = await User.findByPk(userId)
+			if (!user) throw new Error("user didn't exist")
+			let avatarFilePath = user.dataValues.avatar
+			let coverFilePath = user.dataValues.cover
+		
+			if (files?.image) {
+				avatarFilePath = await imgurFileHandler(...files.image)
+			}
+		
+			if (files?.coverImage) {
+				coverFilePath = await imgurFileHandler(...files.coverImage)
+			}
+		
+			await user.update({
+				name,
+				introduction,
+				avatar: avatarFilePath,
+				cover: coverFilePath
+			})
+			req.flash("success_messages", "個人資料儲存成功 !")
+			return res.json({ status: "success", ...user.toJSON() })
+		} catch (err) {
+			next(err)
+		}
+	}
 }
 
 module.exports = userController

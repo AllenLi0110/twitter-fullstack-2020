@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const passport = require("../config/passport")
-
+const upload = require("../middleware/multer")
 const admin = require("./modules/admin")
 const tweetController = require("../controllers/tweet-controller")
 const userController = require("../controllers/user-controller")
@@ -39,6 +39,10 @@ router.post("/tweets/:id/like", authenticated, tweetController.postLike)
 
 //api
 router.get("/api/users/:id", authenticatedLimit, userController.getUserInfo)
+router.post("/api/users/:id", authenticatedLimit, upload.fields([
+	{ name: "image", count: 1 },
+	{ name: "coverImage", count: 1 }
+]), userController.postUser)
 
 router.use("/", (req, res) => res.redirect("/tweets"))
 router.use("/", generalErrorHandler)
