@@ -238,7 +238,51 @@ const userController = {
 		} catch (err) {
 			next(err)
 		}
-	}
+	},
+	getFollowers: async (req, res, next) => {
+		try {
+			const id = req.params.id
+			const currentUser = getUser(req)
+		
+			return User.findByPk(id, {
+				nest: true,
+				include: [Tweet, { model: User, as: "Followers" }]
+			})
+				.then(user => {
+					const followers = user.Followers.map(user => {
+						return {
+							...user.toJSON(),
+							isFollowed: currentUser?.Followings.some(f => f.id === user.id)
+						}
+					}).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
+					res.render("followers", { user: user.toJSON(), followers })
+				})
+		} catch (err) {
+			next(err)
+		}
+	},
+	getFollowings: async (req, res, next) => {
+		try {
+			const id = req.params.id
+			const currentUser = getUser(req)
+		
+			return User.findByPk(id, {
+				nest: true,
+				include: [Tweet, { model: User, as: "Followings" }]
+			})
+				.then(user => {
+					const followings = user.Followings.map(user => {
+						return {
+							...user.toJSON(),
+							isFollowed: currentUser?.Followings.some(f => f.id === user.id)
+						}
+					}).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
+					res.render("followings", { user: user.toJSON(), followings })
+				})
+		} catch (err) {
+			next(err)
+		}
+	},
 }
 
 module.exports = userController

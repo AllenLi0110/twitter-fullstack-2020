@@ -30,6 +30,8 @@ router.get("/users/:id/replies", authenticated, getRecommendedUsers, userControl
 router.get("/users/:id/likes", authenticated, getRecommendedUsers, userController.getLikes)
 router.get("/users/:id/setting", authenticated, getRecommendedUsers, userController.getSetting)
 router.put("/users/:id/setting", authenticated, getRecommendedUsers, userController.putSetting)
+router.get("/users/:id/followers", authenticated, getRecommendedUsers, userController.getFollowers)
+router.get("/users/:id/followings",authenticated, getRecommendedUsers, userController.getFollowings)
 
 router.post("/followships", authenticated, followshipController.addFollowing)
 router.delete("/followships/:id", authenticated, followshipController.removeFollowing)
