@@ -11,11 +11,35 @@ const userController = {
 		const {account, name, email, password, checkPassword} = req.body
 		const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/
 
-		if (password !== checkPassword) throw new Error("密碼與驗證密碼不相符！")
-		if (!account || !name || !email || !password || !checkPassword) throw new Error("請確實填寫所有欄位！")
-		if (account.length > 15) throw new Error("帳號字數上限為 15 字")
-		if (name.length > 50) throw new Error("名稱字數上限為 50 字")
-		if (email.search(emailRule) === -1) throw new Error("請確認信箱的格式！")
+		const validationRules = [
+			{
+				condition: password !== checkPassword,
+				message: "密碼與驗證密碼不相符！",
+			},
+			{
+				condition: !account || !name || !email || !password || !checkPassword,
+				message: "請確實填寫所有欄位！",
+			},
+			{
+				condition: account.length > 15,
+				message: "帳號字數上限為 15 字！",
+			},
+			{
+				condition: name.length > 50,
+				message: "名稱字數上限為 50 字！",
+			},
+			{
+				condition: email.search(emailRule) === -1,
+				message: "請確認信箱的格式！",
+			},
+		]
+		
+		validationRules.forEach((rule) => {
+			if (rule.condition) {
+				req.flash("error_messages", rule.message)
+				return res.redirect("back")
+			}
+		})
 
 		return Promise.all([
 			User.findOne({ where: {account}}),
