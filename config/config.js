@@ -20,8 +20,7 @@ module.exports = {
 		password: process.env.PRO_DB_password,
 		database: process.env.PRO_DB_database,
 		host: process.env.PRO_DB_host,
-		dialect: process.env.PRO_DB_dialect,
-		logging: process.env.PRO_DB_logging
+		dialect: process.env.PRO_DB_dialect
 	},
 	travis: {
 		username: "travis",
