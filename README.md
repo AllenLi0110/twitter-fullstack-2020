@@ -5,7 +5,12 @@ ALPHA Camp | 學期 3 | Simple Twitter | 自動化測試檔 (全端開發組)
 ## Demo
 
 ### User
+
 ![image](https://github.com/AllenLi0110/twitter-fullstack-2020/blob/master/public/images/twitter-user.gif)
+
+### Admin
+
+![image]https://github.com/AllenLi0110/twitter-fullstack-2020/blob/master/public/images/twitter-root.gif)
 
 ## Feature
 
