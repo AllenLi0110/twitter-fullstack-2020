@@ -4,11 +4,11 @@ ALPHA Camp | 學期 3 | Simple Twitter | 自動化測試檔 (全端開發組)
 
 ## Demo
 
-User:
-![twitter-user-1](https://github.com/user-attachments/assets/5712be0d-0ea6-4d6a-8e46-ca39aaf08472)
+# User
+![twitter-user-1](https://github.com/user-attachments/assets/855efb93-5187-4712-bcda-bd1b96a114e4)
 
-Root:
-![twitter-root](https://github.com/user-attachments/assets/e11a17fb-a0dc-471a-bc05-35dab3ed4793)
+# Admin
+![twitter-root](https://github.com/user-attachments/assets/e6fd7226-037e-4a4a-9b85-ab70a50530b7)
 
 
 ## Feature
